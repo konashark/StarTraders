@@ -11,9 +11,12 @@ var st = {				// Generic global variables
 	curSystemIndex: 0,
 	SYS_WIDTH: 20000,
 	LRS_WIDTH: 500,
+    LRS_HEIGHT: 500,
 	SRS_WIDTH: 180,
-	SRS_HEIGHT: 200
-}
+	SRS_HEIGHT: 200,
+    COMPUTER_WIDTH: 500,
+    COMPUTER_HEIGHT: 500
+};
 
 var flight = {			// Globals for Flight mode
 	scene: null,
@@ -32,13 +35,13 @@ var flight = {			// Globals for Flight mode
 		throttle: 0,
 		pulseMaterial: null
 	}
-}
+};
 
 var tPulse = {
 	mesh: null,
 	distance: 0,
 	active: false
-}
+};
 
 var tSystem = {			// Describes a System
 	obj: [],			// Objects in system (array)
@@ -49,25 +52,25 @@ var tSystem = {			// Describes a System
     asteroids: 0,
 	police: 0,
 	pirates: 0
-}
+};
 
 var WEALTH = {
     POOR: 0,
     NORMAL: 1,
     RICH: 2
-}
+};
 
 var ECONOMY = {
     AGRICULTURE: 0,
     TECHNOLOGY: 1,
     INDUSTRY: 2
-}
+};
 
 var AGGRESSION = {
     PEACEFUL: 0,
     NORMAL: 1,
     AGGRESSIVE: 2
-}
+};
 
 var tPlanet = {
 	animFunc: null,
@@ -82,13 +85,13 @@ var tPlanet = {
     aggression: 0,
 
     commodities: []
-}
+};
 
 var STATUS = {
     OK: 0,
     OFFMARKET: 1,
     OUTLAWED: 2
-}
+};
 
 var tCommodities = [
     {
@@ -283,7 +286,7 @@ var tShip = {
     hasShields: false,
     hasHullPlating: false,
     hasPulseCapacitor: false
-}
+};
 
 var tMoon = {
     animFunc: null,
@@ -296,21 +299,21 @@ var tMoon = {
     orbitDist: 0,
     orbitRad: 0,
     orbitVel: 0
-}
+};
 
 var tStarbase = {
 	animFunc: null,
 	material: null,
 	mesh: null,
     commodities: []
-}
+};
 
 var tDerelict = {
     animFunc: null,
     material: null,
     mesh: null,
     commodities: []
-}
+};
 
 var planetNames = [
     "Achilles",
@@ -338,6 +341,7 @@ var planetNames = [
     "Atreides",
     "Aurora",
     "Australius",
+    "Avalon",
     "Barnaby's Outpost",
     "Barracuda",
     "Bartholemew",
@@ -640,6 +644,7 @@ var planetNames = [
     "Sonia",
     "Sparta",
     "Spirit",
+    "Splendid Deliverance",
     "Sprague’s Station",
     "Star's End",
     "Summer",
@@ -686,7 +691,8 @@ var planetNames = [
     "Yamata",
     "Zeff",
     "Zenith",
-    "Zeus"
+    "Zeus",
+    "Zion II"
 ];
 var planetCreated = [];
 

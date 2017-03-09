@@ -14,7 +14,9 @@ function createPlanet(system)
 function createPlanetModels(planet)
 {
 	// planet
-	planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/earth_flat_map_1024.jpg") });
+//	planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/earth_flat_map_1024.jpg") });
+    planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/freebitmaps.blogspot/planet_Miners_Moon_1600.jpg") });
+    //planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/saturnmap.jpg") });
     planet.mesh = new THREE.Mesh(new THREE.SphereGeometry(128, 32, 32), planet.material);
 	planet.rotYv = 0.001;
 	planet.animFunc = updatePlanet;

@@ -110,7 +110,7 @@ function createLongRangeScanner()
 	var canvas = document.createElement('canvas');
 	canvas.id = "lrscanner";
 	canvas.width = st.LRS_WIDTH;
-	canvas.height = st.LRS_WIDTH;
+	canvas.height = st.LRS_HEIGHT;
 	canvas.style.position = "absolute";
 	canvas.style.left = "324px";
 	canvas.style.top = "100px";
@@ -125,7 +125,7 @@ function createLongRangeScanner()
 	ship.src = "./images/lrs_ship.png";
 
 	return {
-		active: true,
+		active: false,
 		shipImg: ship,
 		canvas: canvas,
 		ctx: ctx,
@@ -139,7 +139,7 @@ function updateLongRangeScanner(lrscanner)
 	
 	var ctx = lrscanner.ctx;
 	ctx.fillStyle = "#006600";
-	ctx.fillRect(0, 0, st.LRS_WIDTH, st.LRS_WIDTH);
+	ctx.fillRect(0, 0, st.LRS_WIDTH, st.LRS_HEIGHT);
 	ctx.fillStyle = "#ddbb00";
 	ctx.font = "16px arial";
 	ctx.fillText("LONG RANGE SCAN", 10,20);

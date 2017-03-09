@@ -30,7 +30,6 @@ THREE.FlyControls = function ( object, keyHandler ) {
 	this.rollSpeed = Math.PI/180;
 
 	// disable default target object behavior
-	this.object.useQuaternion = true;
 	this.tmpQuaternion = new THREE.Quaternion();
 
 	this.moveState = {forward: 0, back: 0, pitch:0, yaw:0, roll:0 };

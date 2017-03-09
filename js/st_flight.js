@@ -29,6 +29,7 @@ function animate(){
 	updateLongRangeScanner(flight.lrScanner);
 	updatePulseWeapon();
 	updateExplosion();
+	updateComputer(flight.computer);
 		
 	// render
 	flight.renderer.render(flight.scene, flight.camera);
@@ -57,27 +58,42 @@ window.onload = function(){
 	var textureImg = new Image();
 	textureImg.onload = function(){	animate(); }; // Kick off first animation frame
 	textureImg.src = "./images/pulse.png";
-}
+};
 
 //*********************************************************
 function keyHandlerCallback(key)
 {
 	console.log(key);
 	
-	if (key == 76)	// 'l - long range scanner
+	if (key == 67)	// 'c - computer
 	{
-		if (flight.lrScanner.active == true)
+		if (flight.computer.active == true)
 		{
-			console.log("Hiding LRS");
-			flight.lrScanner.active = false;
-			document.getElementById('lrscanner').hidden = true;
+			console.log("Hiding Computer");
+			flight.computer.active = false;
+			document.getElementById('computer').hidden = true;
 		}
 		else {
-			console.log("Showing LRS");
-			flight.lrScanner.active = true;
-			document.getElementById('lrscanner').hidden = false;
+			console.log("Showing Computer");
+			flight.computer.active = true;
+			document.getElementById('computer').hidden = false;
 		}
 	}
+
+    if (key == 76)	// 'l - long range scanner
+    {
+        if (flight.lrScanner.active == true)
+        {
+            console.log("Hiding LRS");
+            flight.lrScanner.active = false;
+            document.getElementById('lrscanner').hidden = true;
+        }
+        else {
+            console.log("Showing LRS");
+            flight.lrScanner.active = true;
+            document.getElementById('lrscanner').hidden = false;
+        }
+    }
 }
 
 //*********************************************************
@@ -85,21 +101,27 @@ function createFlightScene()
 {
 	if (1) {
 		console.log("Creating WebGL renderer from canvas...");
-		st.canvas = document.createElement('canvas');
+
+        flight.height = window.innerHeight - 240;
+        flight.width = window.innerWidth;
+        flight.ratio = flight.width / flight.height;
+
+        st.canvas = document.createElement('canvas');
 		st.canvas.width = st.WIDTH;
 		st.canvas.height = st.HEIGHT;
 		flight.renderer = new THREE.WebGLRenderer({canvas:st.canvas});
-		flight.renderer.setSize(st.WIDTH, st.HEIGHT);
-	}
+        flight.renderer.setSize(flight.width, flight.height);
+    }
 	else {
 		console.log("Using Three.js created canvas...");
 		flight.renderer = new THREE.WebGLRenderer();
-		flight.renderer.setSize(st.WIDTH, st.HEIGHT);
+        flight.renderer.setSize(flight.width, flight.height);
 	}
-	document.body.appendChild(flight.renderer.domElement);
-		
+	$('#screen').append(flight.renderer.domElement);
+    $(flight.renderer.domElement).css('marginLeft', ~~((window.innerWidth - flight.width)/2));
+
 	// camera
-	flight.camera = new THREE.PerspectiveCamera(45, st.WIDTH/st.HEIGHT, 1, st.SYS_WIDTH * 2);
+    flight.camera = new THREE.PerspectiveCamera(45, flight.ratio, 1, st.SYS_WIDTH * 2);
 	flight.camera.position.z = 800;
 	
 	// scene
@@ -111,7 +133,7 @@ function createFlightScene()
     var shader = THREE.ShaderLib[ "cube" ];
     shader.uniforms[ "tCube" ].value = f;
 	var c = new THREE.MeshBasicMaterial({color:0xffffff,envMap:f, side: THREE.BackSide});
-	var b = new THREE.Mesh(new THREE.CubeGeometry(st.SYS_WIDTH,st.SYS_WIDTH,st.SYS_WIDTH,null,true),c);
+	var b = new THREE.Mesh(new THREE.BoxGeometry(st.SYS_WIDTH,st.SYS_WIDTH,st.SYS_WIDTH,null,true),c);
 	flight.scene.add(b);
 
 	//	var skyBoxMaterial = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture("./images/starfield_min.jpg"), side: THREE.BackSide });
@@ -132,6 +154,7 @@ function createFlightScene()
 
 	flight.srScanner = createShortRangeScanner();
 	flight.lrScanner = createLongRangeScanner();
+	flight.computer = createComputer();
 }
 
 //*********************************************************
