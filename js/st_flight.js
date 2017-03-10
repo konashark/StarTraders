@@ -37,13 +37,6 @@ function animate(){
 
 //*********************************************************
 window.onload = function(){
-//console.log("Creating WebGL renderer from canvas...");
-//var canvas = document.createElement('canvas');
-//canvas.width = 500;
-//canvas.height = 500;
-//renderer = new THREE.WebGLRenderer({canvas:canvas});
-//renderer.setSize(500, 500);
-//console.log("DONE Creating WebGL renderer from canvas...");
 
 	createFlightScene();	
 	st.controls = new THREE.FlyControls(flight.camera, keyHandlerCallback);	
@@ -146,10 +139,10 @@ function createFlightScene()
 
 //	flight.scene.fog = new THREE.Fog( 0x000000, 1000, 10000);
 
+    // Initialize sub-componentsc
 	flight.srScanner = createShortRangeScanner();
 //	flight.lrScanner = createLongRangeScanner();
     COMPUTER.create();
-
 }
 
 //*********************************************************
@@ -179,9 +172,9 @@ function createSystemObjects(system)
         system.asteroids = randomRange(1,8);
     }
 
-	var planet = createPlanet(system);
-	createMoon(system, planet);
-	createDerelict(system);
+	var planet = PLANETS.createPlanet(system);
+	PLANETS.createMoon(system, planet);
+	SHIPS.createDerelict(system);
 }
 
 

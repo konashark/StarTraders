@@ -1,4 +1,4 @@
-var  = {};
+var NAME = {};
 
 (function() {
 
@@ -10,7 +10,7 @@ var  = {};
         console.log("Creating...");
 
         $('#screen').append(
-            '<div id="" style="display: none">
+            '<div id="" style="display: none"> +
             '</div>'
         )
 
@@ -39,4 +39,4 @@ var  = {};
         $('#').css('display', 'block');
     };
 
-}).apply();
+}).apply(NAME);
