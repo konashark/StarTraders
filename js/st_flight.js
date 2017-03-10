@@ -26,10 +26,10 @@ function animate(){
 	st.controls.update(st.clock.getDelta());
 	
 	updateShortRangeScanner(flight.srScanner);
-	updateLongRangeScanner(flight.lrScanner);
+	if (flight.lrscanner) { flight.lrscanner = updateLongRangeScanner(flight.lrscanner); }
 	updatePulseWeapon();
 	updateExplosion();
-	updateComputer(flight.computer);
+	if (COMPUTER.active) { COMPUTER.update(); }
 		
 	// render
 	flight.renderer.render(flight.scene, flight.camera);
@@ -67,31 +67,25 @@ function keyHandlerCallback(key)
 	
 	if (key == 67)	// 'c - computer
 	{
-		if (flight.computer.active == true)
-		{
+		if (COMPUTER.active) {
 			console.log("Hiding Computer");
-			flight.computer.active = false;
-			document.getElementById('computer').hidden = true;
-		}
-		else {
+            COMPUTER.hide();
+		} else {
 			console.log("Showing Computer");
-			flight.computer.active = true;
-			document.getElementById('computer').hidden = false;
+            COMPUTER.show();
 		}
 	}
 
     if (key == 76)	// 'l - long range scanner
     {
-        if (flight.lrScanner.active == true)
-        {
+        if (flight.lrscanner) {
             console.log("Hiding LRS");
-            flight.lrScanner.active = false;
-            document.getElementById('lrscanner').hidden = true;
+            $('#lrscanner').remove();
+            flight.lrscanner = undefined;
         }
         else {
             console.log("Showing LRS");
-            flight.lrScanner.active = true;
-            document.getElementById('lrscanner').hidden = false;
+            flight.lrscanner = createLongRangeScanner();
         }
     }
 }
@@ -107,8 +101,8 @@ function createFlightScene()
         flight.ratio = flight.width / flight.height;
 
         st.canvas = document.createElement('canvas');
-		st.canvas.width = st.WIDTH;
-		st.canvas.height = st.HEIGHT;
+        st.canvas.width = flight.width;
+        st.canvas.height = flight.height;
 		flight.renderer = new THREE.WebGLRenderer({canvas:st.canvas});
         flight.renderer.setSize(flight.width, flight.height);
     }
@@ -121,8 +115,8 @@ function createFlightScene()
     $(flight.renderer.domElement).css('marginLeft', ~~((window.innerWidth - flight.width)/2));
 
 	// camera
-    flight.camera = new THREE.PerspectiveCamera(45, flight.ratio, 1, st.SYS_WIDTH * 2);
-	flight.camera.position.z = 800;
+    flight.camera = new THREE.PerspectiveCamera(30, flight.ratio, 1, st.SYS_WIDTH * 2);
+	flight.camera.position.z = 1000;
 	
 	// scene
 	flight.scene = scene = new THREE.Scene();
@@ -153,8 +147,9 @@ function createFlightScene()
 //	flight.scene.fog = new THREE.Fog( 0x000000, 1000, 10000);
 
 	flight.srScanner = createShortRangeScanner();
-	flight.lrScanner = createLongRangeScanner();
-	flight.computer = createComputer();
+//	flight.lrScanner = createLongRangeScanner();
+    COMPUTER.create();
+
 }
 
 //*********************************************************

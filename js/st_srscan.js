@@ -118,25 +118,22 @@ function createLongRangeScanner()
 	ctx = canvas.getContext('2d');
 	ctx.font = "16px arial";
 
-	document.body.appendChild(canvas)
+	$('#screen').append(canvas);
 
 	// Load Scanner Icons
 	ship = new Image();
 	ship.src = "./images/lrs_ship.png";
 
 	return {
-		active: false,
 		shipImg: ship,
 		canvas: canvas,
-		ctx: ctx,
+		ctx: ctx
 	}
 }
 
 //*********************************************************
 function updateLongRangeScanner(lrscanner)
 {	
-	if (lrscanner.active == false) return;
-	
 	var ctx = lrscanner.ctx;
 	ctx.fillStyle = "#006600";
 	ctx.fillRect(0, 0, st.LRS_WIDTH, st.LRS_HEIGHT);
@@ -146,7 +143,7 @@ function updateLongRangeScanner(lrscanner)
 	ctx.font = "12px arial";
 	ctx.strokeStyle = "#eeeeee";
 	ctx.fillStyle = "#ffffff";
-//	ctx.drawImage(flight.srScanner.gridImg, 0, 0, 160, 160, 10, 30, 160, 160);
+//	ctx.drawImage(flight.lrscanner.gridImg, 0, 0, 160, 160, 10, 30, 160, 160);
 	
 	var scaler = (st.SYS_WIDTH / st.LRS_WIDTH);
 	// Draw any objects floating around our current star system
@@ -200,7 +197,7 @@ function updateLongRangeScanner(lrscanner)
 	var scaleX = (st.LRS_WIDTH / 2)+10 + (flight.camera.position.x / scaler);
 	var scaleY = (st.LRS_WIDTH / 2)+10 + (flight.camera.position.z / scaler);
 
-	ctx.drawImage(flight.lrScanner.shipImg, 0, 0, 16, 16, scaleX-7, scaleY-7, 16, 16);
+	ctx.drawImage(flight.lrscanner.shipImg, 0, 0, 16, 16, scaleX-7, scaleY-7, 16, 16);
 	ctx.beginPath();
 	ctx.moveTo(scaleX+7, scaleY+7);	
 	ctx.lineTo(scaleX+20, scaleY+20);	

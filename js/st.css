@@ -1,0 +1,85 @@
+body {
+    background-color: red;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#screen {
+    width: 100%;
+    height: 100%;
+    background-color: red;
+}
+
+#computer {
+    position: absolute;
+    left: 324px;
+    top: 100px;
+    width: 501px;
+    height: 440px;
+    opacity: 1;
+    background-color: #222;
+    font-family: sans-serif;
+    font-size: 12px;
+    color: green;
+    border: outset 2px #333;
+    //padding: 10px 20px 0px 20px;
+}
+
+#computerCanvas {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 480px;
+    height: 320px;
+}
+
+#computerOverlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 480px;
+    height: 320px;
+    opacity: .80;
+    padding: 8px;
+    font-size: 14px;
+}
+
+#computerZoom {
+    position: absolute;
+    top: 40px;
+    left: 460px;
+    width: 8px;
+    height: 240px;
+    background-color: #181818;
+}
+
+#computerZoomGauge {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 1px;
+    background-color: #FC4;
+    transition: height 200ms;
+}
+
+#console {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 240px;
+    background-color: #331818;
+    border-top: groove 6px #553030;
+    border-bottom: groove 6px #553030;
+}
+
+.button {
+    display: inline-block;
+    font-size: 24px;
+    color: white;
+}
+
+.button:hover {
+    color: #FC4;
+}
