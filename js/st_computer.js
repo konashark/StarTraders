@@ -12,18 +12,55 @@ var COMPUTER = {};
     var scene;
     var zoom = 1200, targetZoom = 600;
 
+    var planets = [
+        {
+            name:       'Earth',
+            type:       'M',
+            economy:    'Technology',
+            population: '10,000,000,000',
+            wealth:     'Moderate',
+            hostility:  'Low',
+            mesh:       './images/earth_flat_map_1024.jpg'
+        },
+        {
+            name:       "Charlie's Expulsion",
+            type:       'X',
+            economy:    'Mining',
+            population: '500',
+            wealth:     'Low',
+            hostility:  'Medium',
+            mesh:       './images/extras/saturnmap.jpg'
+        },
+        {
+            name:       "Copernicus",
+            type:       'O',
+            economy:    'Mining',
+            population: '50,000',
+            wealth:     'Medium',
+            hostility:  'Medium',
+            mesh:       './images/extras/freebitmaps.blogspot/planet_Miners_Moon_1600.jpg'
+        },
+
+    ];
+    var currentPlanet = 0;
+
     //*******************************************
     this.create = function () {
         console.log("Creating Computer...");
 
         $('#screen').append(
             '<div id="computer" style="display: none">' +
-            '   <div id="left" class="button"><</div>' +
-            '   <div id="right" class="button">></div>' +
+            '   <div id="computerConsole">' +
+            '       <div id="left" class="button"><</div>' +
+            '       <div id="right" class="button">></div>' +
+            '   </div>' +
             '</div>'
         );
 
         elem = $('#computer')[0];
+
+        $('#computerConsole').on('click', '#left', onLeft);
+        $('#computerConsole').on('click', '#right', onRight);
 
         canvas = document.createElement('canvas');
         canvas.id = 'computerCanvas';
@@ -35,13 +72,17 @@ var COMPUTER = {};
 
         $(elem).append(
             '<div id="computerOverlay">' +
-            '   <p>' +
-            '   <div>Name: Earth</div>' +
-            '   <div>Class: M</div>' +
-            '   <div>Economy: Technology</div>' +
-            '   <div>Population: 10,000,000,000</div>' +
-            '   <div>Wealth: Moderate</div>' +
-            '   <div>Hostility: Low</div>' +
+            '   <div id="planetInfo">' +
+            '       <div id="name" class="computerOutput" style="font-size: 24px">Earth</div>' +
+            '       <p>' +
+            '       <table id="planetStats">' +
+            '           <tr><td>Class:</td> <td id="class" class="computerOutput">M</td></td></tr>' +
+            '           <tr><td>Economy:</td> <td id="economy" class="computerOutput">Technology</td></td></tr>' +
+            '           <tr><td>Population:</td> <td id="pop" class="computerOutput">10,000,000,000</td></td></tr>' +
+            '           <tr><td>Wealth:</td> <td id="wealth" class="computerOutput">Moderate</td></td></tr>' +
+            '           <tr><td>Hostility:</td> <td id="hostile" class="computerOutput">Low</td></td></tr>' +
+            '       </table>' +
+            '   </div>' +
             '   <div id="computerZoom">' +
             '       <div id="computerZoomGauge"></div>' +
             '   </div>' +
@@ -49,9 +90,6 @@ var COMPUTER = {};
         );
 
         $('#computerZoomGauge').css('height', 241 - (~~(((targetZoom - 200) / 1000) * 240)));
-
-        //var ctx = canvas.getContext('2d');
-        //ctx.font = "12px arial";
 
         // camera
         camera = new THREE.PerspectiveCamera(30, (3/2), 1, 2000);
@@ -73,7 +111,6 @@ var COMPUTER = {};
         setTimeout(function() { renderer.render(scene, camera); }, 0);
 
         return {
-            //    ctx: ctx
         };
     };
 
@@ -84,7 +121,7 @@ var COMPUTER = {};
         }
         planet.mesh.rotation.y = planet.rotY;
 
-        var tween = ((targetZoom - zoom) / 10);
+        var tween = ((targetZoom - zoom) / 12);
         if (tween > -.5 && tween < .5) { tween = 0; }
         if (tween) {
             zoom += tween;
@@ -126,6 +163,41 @@ var COMPUTER = {};
     };
 
     //*******************************************
+    var onLeft = function (event) {
+        console.log("left");
+        if (--currentPlanet < 0) { currentPlanet = 2; }
+        resetPlanet(currentPlanet);
+    };
+
+
+
+    //*******************************************
+    var onRight = function (event) {
+        console.log("right");
+        if (++currentPlanet > 2) { currentPlanet = 0; }
+        resetPlanet(currentPlanet);
+    };
+
+    //*******************************************
+    var resetPlanet = function () {
+        planet.mesh.parent.remove(planet.mesh);
+        planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(planets[currentPlanet].mesh) });
+        planet.mesh = new THREE.Mesh(new THREE.SphereGeometry(128, 32, 32), planet.material);
+        scene.add(planet.mesh);
+
+        $('#planetInfo').css('opacity', 0);
+        setTimeout(function() {
+            $('#computerOverlay #name').text(planets[currentPlanet].name);
+            $('#planetStats #class').text(planets[currentPlanet].class);
+            $('#planetStats #economy').text(planets[currentPlanet].economy);
+            $('#planetStats #pop').text(planets[currentPlanet].population);
+            $('#planetStats #wealth').text(planets[currentPlanet].wealth);
+            $('#planetStats #hostile').text(planets[currentPlanet].hostility);
+            $('#planetInfo').css('opacity', 1);
+        }, 200);
+    };
+
+    //*******************************************
     function createPlanetModel(scene)
     {
         // planet
@@ -138,7 +210,5 @@ var COMPUTER = {};
         scene.add(planet.mesh);
 
         return planet;
-
-        // planet.mesh.parent.remove(planet.mesh);
     }
 }).apply(COMPUTER);
