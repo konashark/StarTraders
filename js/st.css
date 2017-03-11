@@ -7,6 +7,8 @@ body {
 #screen {
     width: 100%;
     height: 100%;
+    font-size: 13px;
+    font-family: sans-serif;
     background-color: red;
 }
 
@@ -14,21 +16,23 @@ body {
     position: absolute;
     left: 324px;
     top: 100px;
-    width: 501px;
-    height: 440px;
-    opacity: 1;
-    background-color: #222;
+    width: 510px;
+    height: 450px;
+    background: linear-gradient(45deg, rgba(20,20,20,1) 10%,rgba(30,26,28,1) 70%, rgba(77,77,80,1) 80%,rgba(110,110,114,1) 100%);
     font-family: sans-serif;
     font-size: 12px;
     color: green;
     border: outset 2px #333;
+    border-radius: 19px;
     overflow: hidden;
+    opacity: 0;
+    transition: opacity 240ms;
 }
 
 #computerCanvas {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 15px;
+    left: 15px;
     width: 480px;
     height: 320px;
 }
@@ -40,13 +44,13 @@ body {
     width: 480px;
     height: 320px;
     opacity: .80;
-    padding: 8px;
+    padding: 10px;
     font-size: 13px;
 }
 
 #computerConsole {
     position: absolute;
-    top: 338px;
+    top: 348px;
     left: 0px;
     width: 500px;
     height: 85px;
@@ -81,15 +85,25 @@ body {
     transition: height 200ms;
 }
 
-#console {
+#consoleContainer {
     position: absolute;
     left: 0px;
     bottom: 0px;
     width: 100%;
     height: 240px;
-    background-color: #331818;
-    border-top: groove 6px #553030;
-    border-bottom: groove 6px #553030;
+    border-top: groove 6px #333;
+    border-bottom: groove 6px #333;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 15%,rgba(34,30,34,1) 92%, rgba(60,60,62,1) 96%,rgba(96,96,100,1) 100%);
+}
+
+#console {
+    position: relative;
+    width: 1000px;
+    height: 215px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    border: groove 4px #333;
 }
 
 .button {
@@ -100,4 +114,62 @@ body {
 
 .button:hover {
     color: #FC4;
+}
+
+#srsContainer {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    width: 188px;
+    height: 200px;
+    color: #c92;
+    background: linear-gradient(0deg, rgba(60,0,0,1) 15%, rgba(72,0,0,1) 90%,rgba(112,0,0,1) 96%,rgba(64,0,0,1) 100%);
+    border-radius: 7px;
+}
+
+#srsLabel {
+    position: absolute;
+    bottom: 5px;
+    left: 14px;
+}
+
+#srs {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 180px;
+    height: 180px;
+}
+
+#lrsContainer {
+    position: absolute;
+    left: 334px;
+    top: 80px;
+    width: 538px;
+    height: 548px;
+    background: linear-gradient(45deg, rgba(20,20,20,1) 10%,rgba(30,26,28,1) 70%, rgba(77,77,80,1) 80%,rgba(110,110,114,1) 100%);
+    font-family: sans-serif;
+    font-size: 12px;
+    color: green;
+    border: outset 2px #333;
+    border-radius: 19px;
+    overflow: hidden;
+    opacity: 0;
+    display: none;
+    transition: opacity 240ms;
+}
+
+#lrs {
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    left: 18px;
+    top: 30px;
+    opacity: 0.7;
+}
+
+#lrsLabel {
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }

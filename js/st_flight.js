@@ -25,8 +25,8 @@ function animate(){
 	// Read controls and update positions of camera
 	st.controls.update(st.clock.getDelta());
 	
-	updateShortRangeScanner(flight.srScanner);
-	if (flight.lrscanner) { flight.lrscanner = updateLongRangeScanner(flight.lrscanner); }
+    if (SCANNERS.srsActive) { SCANNERS.updateShortRangeScanner(); }
+	if (SCANNERS.lrsActive) { SCANNERS.updateLongRangeScanner(); }
 	updatePulseWeapon();
 	updateExplosion();
 	if (COMPUTER.active) { COMPUTER.update(); }
@@ -71,14 +71,13 @@ function keyHandlerCallback(key)
 
     if (key == 76)	// 'l - long range scanner
     {
-        if (flight.lrscanner) {
+        if (SCANNERS.lrsActive) {
             console.log("Hiding LRS");
-            $('#lrscanner').remove();
-            flight.lrscanner = undefined;
+            SCANNERS.lrsHide();
         }
         else {
             console.log("Showing LRS");
-            flight.lrscanner = createLongRangeScanner();
+            SCANNERS.lrsShow();
         }
     }
 }
@@ -140,7 +139,8 @@ function createFlightScene()
 //	flight.scene.fog = new THREE.Fog( 0x000000, 1000, 10000);
 
     // Initialize sub-componentsc
-	flight.srScanner = createShortRangeScanner();
+	SCANNERS.createShortRangeScanner();
+    SCANNERS.createLongRangeScanner();
 //	flight.lrScanner = createLongRangeScanner();
     COMPUTER.create();
 }

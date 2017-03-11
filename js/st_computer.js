@@ -141,7 +141,9 @@ var COMPUTER = {};
     //*******************************************
     this.hide = function () {
         this.active = false;
-        $('#computer').css('display', 'none');
+        $('#computer').css('opacity', 0);
+        setTimeout(function() { $('#computer').css('display', 'none'); }, 250);
+
         elem.removeEventListener('wheel', onMouseWheel);
     };
 
@@ -149,6 +151,7 @@ var COMPUTER = {};
     this.show = function () {
         this.active = true;
         $('#computer').css('display', 'block');
+        setTimeout(function() { $('#computer').css('opacity', 1); }, 50);
         elem.addEventListener('wheel', onMouseWheel);
     };
 
