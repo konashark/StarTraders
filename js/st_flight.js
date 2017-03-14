@@ -24,8 +24,8 @@ function animate(){
 
 	// Read controls and update positions of camera
 	st.controls.update(st.clock.getDelta());
-	
-    if (SCANNERS.srsActive) { SCANNERS.updateShortRangeScanner(); }
+
+    if (CONSOLE.active) { CONSOLE.update(); }
 	if (SCANNERS.lrsActive) { SCANNERS.updateLongRangeScanner(); }
 	updatePulseWeapon();
 	updateExplosion();
@@ -139,9 +139,8 @@ function createFlightScene()
 //	flight.scene.fog = new THREE.Fog( 0x000000, 1000, 10000);
 
     // Initialize sub-componentsc
-	SCANNERS.createShortRangeScanner();
+	CONSOLE.create();
     SCANNERS.createLongRangeScanner();
-//	flight.lrScanner = createLongRangeScanner();
     COMPUTER.create();
 }
 

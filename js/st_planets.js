@@ -22,8 +22,9 @@ var PLANETS = {};
         planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/freebitmaps.blogspot/planet_Miners_Moon_1600.jpg") });
         //planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/saturnmap.jpg") });
         planet.mesh = new THREE.Mesh(new THREE.SphereGeometry(128, 32, 32), planet.material);
+        planet.rotY = 0;
         planet.rotYv = 0.001;
-        planet.animFunc = this.updatePlanet;
+        planet.animFunc = updatePlanet;
     };
 
     //*******************************************
@@ -205,7 +206,7 @@ var PLANETS = {};
     };
 
     //*******************************************
-    this.updatePlanet = function (obj)
+    var updatePlanet = function (obj)
     {
         if ((obj.rotY += obj.rotYv) >= st.TWOPI) {
             obj.rotY -= st.TWOPI;
@@ -228,6 +229,8 @@ var PLANETS = {};
         moon.orbitRad = Math.random() * st.TWOPI;
         moon.orbitVel = 0.001 + (Math.random() * 0.001);
         moon.animFunc = this.updateMoon;
+        moon.rotY = 0;
+        moon.rotYv = 0.005;
         system.obj.push(moon);
         flight.scene.add(moon.mesh);
     };
@@ -240,6 +243,9 @@ var PLANETS = {};
         }
         obj.mesh.position.x = obj.x + Math.sin(obj.orbitRad) * obj.orbitDist;
         obj.mesh.position.z = obj.z + Math.cos(obj.orbitRad) * obj.orbitDist;
+
+        obj.rotY += obj.rotYv;
+        obj.mesh.rotation.y = obj.rotY;
     };
 
 }).apply(PLANETS);

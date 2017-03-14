@@ -10,12 +10,11 @@ var NAME = {};
         console.log("Creating...");
 
         $('#screen').append(
-            '<div id="" style="display: none"> +
+            '<div id="" style="display: none">' +
             '</div>'
-        )
+        );
 
-        return {
-        };
+        return {};
     };
 
     //*******************************************
@@ -24,7 +23,7 @@ var NAME = {};
         ctx.fillStyle = "#111111";
         ctx.fillRect(0, 0, 480, 320);
 
-        return computer;
+        return ;
     };
 
     //*******************************************
