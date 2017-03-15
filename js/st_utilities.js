@@ -66,7 +66,7 @@ function eulerToAngle(roty) {
 
 //*********************************************************
 function randomRange(min, max) {
-    Math.floor(Math.random() * (1 + max - min)) + min;
+    return (Math.floor(Math.random() * (1 + max - min)) + min);
 }
 
 //*********************************************************

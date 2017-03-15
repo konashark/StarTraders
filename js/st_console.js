@@ -51,6 +51,9 @@ var CONSOLE = {};
 
         SCANNERS.createShortRangeScanner();
 
+        $('#consoleContainer').on('click', '#conLeft', onLeft);
+        $('#consoleContainer').on('click', '#conRight', onRight);
+
         this.active = true;
 
         return {
@@ -74,4 +77,11 @@ var CONSOLE = {};
         $('#').css('display', 'block');
     };
 
+    //*******************************************
+    var onLeft = function (event) {
+    };
+
+    //*******************************************
+    var onRight = function (event) {
+    };
 }).apply(CONSOLE);

@@ -7,41 +7,14 @@ var COMPUTER = {};
     var renderer;
     var ctx;
     var planet;
+    var planetMaterial;
+    var planetMesh;
+
     var canvas;
     var camera;
     var scene;
-    var zoom = 1200, targetZoom = 600;
+    var zoom = 1200, targetZoom = 800;
 
-    var planets = [
-        {
-            name:       'Earth',
-            type:       'M',
-            economy:    'Technology',
-            population: '10,000,000,000',
-            wealth:     'Moderate',
-            hostility:  'Low',
-            mesh:       './images/earth_flat_map_1024.jpg'
-        },
-        {
-            name:       "Charlie's Expulsion",
-            type:       'X',
-            economy:    'Mining',
-            population: '500',
-            wealth:     'Low',
-            hostility:  'Medium',
-            mesh:       './images/extras/saturnmap.jpg'
-        },
-        {
-            name:       "Copernicus",
-            type:       'O',
-            economy:    'Mining',
-            population: '50,000',
-            wealth:     'Medium',
-            hostility:  'Medium',
-            mesh:       './images/extras/freebitmaps.blogspot/planet_Miners_Moon_1600.jpg'
-        },
-
-    ];
     var currentPlanet = 0;
 
     //*******************************************
@@ -51,16 +24,16 @@ var COMPUTER = {};
         $('#screen').append(
             '<div id="computer" style="display: none">' +
             '   <div id="computerConsole">' +
-            '       <div id="left" class="button"><</div>' +
-            '       <div id="right" class="button">></div>' +
+            '       <img id="computerLeft" class="conNavButton" src="./images/left.png">' +
+            '       <img id="computerRight" class="conNavButton" src="./images/right.png">' +
             '   </div>' +
             '</div>'
         );
 
         elem = $('#computer')[0];
 
-        $('#computerConsole').on('click', '#left', onLeft);
-        $('#computerConsole').on('click', '#right', onRight);
+        $('#computerConsole').on('click', '#computerLeft', onLeft);
+        $('#computerConsole').on('click', '#computerRight', onRight);
 
         canvas = document.createElement('canvas');
         canvas.id = 'computerCanvas';
@@ -89,7 +62,7 @@ var COMPUTER = {};
             '</div>'
         );
 
-        $('#computerZoomGauge').css('height', 241 - (~~(((targetZoom - 200) / 1000) * 240)));
+        $('#computerZoomGauge').css('height', 241 - (~~(((targetZoom - 300) / 1000) * 240)));
 
         // camera
         camera = new THREE.PerspectiveCamera(30, (3/2), 1, 2000);
@@ -107,9 +80,6 @@ var COMPUTER = {};
         directionalLight.position.set(1, 1, 1).normalize();
         scene.add(directionalLight);
 
-        planet = createPlanetModel(scene);
-        setTimeout(function() { renderer.render(scene, camera); }, 0);
-
         return {
         };
     };
@@ -119,7 +89,7 @@ var COMPUTER = {};
         if ((planet.rotY += planet.rotYv) >= st.TWOPI) {
             planet.rotY -= st.TWOPI;
         }
-        planet.mesh.rotation.y = planet.rotY;
+        planetMesh.rotation.y = planet.rotY;
 
         var tween = ((targetZoom - zoom) / 12);
         if (tween > -.5 && tween < .5) { tween = 0; }
@@ -150,7 +120,15 @@ var COMPUTER = {};
     //*******************************************
     this.show = function () {
         this.active = true;
+
+        zoom = 1200;
+        targetZoom = 800;
+
         $('#computer').css('display', 'block');
+
+        displayPlanet(currentPlanet);
+        setTimeout(function() { renderer.render(scene, camera); }, 0);
+
         setTimeout(function() { $('#computer').css('opacity', 1); }, 50);
         elem.addEventListener('wheel', onMouseWheel);
     };
@@ -159,59 +137,44 @@ var COMPUTER = {};
     var onMouseWheel = function (event) {
         console.log("wheel");
         targetZoom += (event.deltaY / 2);
-        if (targetZoom < 200) { targetZoom = 200; }
-        if (targetZoom > 1200) { targetZoom = 1200; }
+        if (targetZoom < 300) { targetZoom = 300; }
+        if (targetZoom > 1300) { targetZoom = 1300; }
 
-        $('#computerZoomGauge').css('height', 241 - (~~(((targetZoom - 200) / 1000) * 240)));
+        $('#computerZoomGauge').css('height', 241 - (~~(((targetZoom - 300) / 1000) * 240)));
     };
 
     //*******************************************
     var onLeft = function (event) {
         console.log("left");
-        if (--currentPlanet < 0) { currentPlanet = 2; }
-        resetPlanet(currentPlanet);
+        if (--currentPlanet < 0) { currentPlanet = PLANETS.getNumberOfPlanets() - 1; }
+        displayPlanet(currentPlanet);
     };
-
-
 
     //*******************************************
     var onRight = function (event) {
         console.log("right");
-        if (++currentPlanet > 2) { currentPlanet = 0; }
-        resetPlanet(currentPlanet);
+        if (++currentPlanet >= PLANETS.getNumberOfPlanets()) { currentPlanet = 0; }
+        displayPlanet(currentPlanet);
     };
 
     //*******************************************
-    var resetPlanet = function () {
-        planet.mesh.parent.remove(planet.mesh);
-        planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(planets[currentPlanet].mesh) });
-        planet.mesh = new THREE.Mesh(new THREE.SphereGeometry(128, 32, 32), planet.material);
-        scene.add(planet.mesh);
+    var displayPlanet = function (currentPlanet) {
+        if (planetMesh && planetMesh.parent) {
+            planetMesh.parent.remove(planetMesh);
+        }
+        planet = PLANETS.getPlanet(currentPlanet);
+        planetMaterial = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('./images/planetmaps/' + planet.materialName) });
+        planetMesh = new THREE.Mesh(new THREE.SphereGeometry(planet.size, 32, 32), planetMaterial);
+        scene.add(planetMesh);
 
         $('#planetInfo').css('opacity', 0);
         setTimeout(function() {
-            $('#computerOverlay #name').text(planets[currentPlanet].name);
-            $('#planetStats #class').text(planets[currentPlanet].class);
-            $('#planetStats #economy').text(planets[currentPlanet].economy);
-            $('#planetStats #pop').text(planets[currentPlanet].population);
-            $('#planetStats #wealth').text(planets[currentPlanet].wealth);
-            $('#planetStats #hostile').text(planets[currentPlanet].hostility);
+            $('#computerOverlay #name').text(planet.name);
+            $('#planetStats #economy').text(planet.economy);
+            $('#planetStats #pop').text(planet.population);
+            $('#planetStats #wealth').text(planet.wealth);
+            $('#planetStats #hostile').text(planet.aggression);
             $('#planetInfo').css('opacity', 1);
         }, 200);
     };
-
-    //*******************************************
-    function createPlanetModel(scene)
-    {
-        // planet
-        var planet = JSON.parse(JSON.stringify( tPlanet ));
-	    planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/earth_flat_map_1024.jpg") });
-        //planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/freebitmaps.blogspot/planet_Miners_Moon_1600.jpg") });
-        //planet.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./images/extras/saturnmap.jpg") });
-        planet.mesh = new THREE.Mesh(new THREE.SphereGeometry(128, 32, 32), planet.material);
-        planet.rotYv = 0.001;
-        scene.add(planet.mesh);
-
-        return planet;
-    }
 }).apply(COMPUTER);

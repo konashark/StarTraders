@@ -27,8 +27,8 @@ function animate(){
 
     if (CONSOLE.active) { CONSOLE.update(); }
 	if (SCANNERS.lrsActive) { SCANNERS.updateLongRangeScanner(); }
-	updatePulseWeapon();
-	updateExplosion();
+	WEAPONS.updatePulseWeapon();
+	EXPLOSION.updateExplosion();
 	if (COMPUTER.active) { COMPUTER.update(); }
 		
 	// render
@@ -38,14 +38,14 @@ function animate(){
 //*********************************************************
 window.onload = function(){
 
-	createFlightScene();	
+	createFlightScene();
 	st.controls = new THREE.FlyControls(flight.camera, keyHandlerCallback);	
 	
 	st.curSystem = tSystem;
 	st.systems.push(st.curSystem);
 	createSystemObjects(st.curSystem);
 
-	initializePulseWeapon();
+	WEAPONS.initializePulseWeapon();
 
 	// wait for texture image to load before kicking off animation
 	var textureImg = new Image();
@@ -138,8 +138,9 @@ function createFlightScene()
 
 //	flight.scene.fog = new THREE.Fog( 0x000000, 1000, 10000);
 
-    // Initialize sub-componentsc
-	CONSOLE.create();
+    // Initialize sub-components
+	PLANETS.initialize();
+    CONSOLE.create();
     SCANNERS.createLongRangeScanner();
     COMPUTER.create();
 }
@@ -171,9 +172,17 @@ function createSystemObjects(system)
         system.asteroids = randomRange(1,8);
     }
 
-	var planet = PLANETS.createPlanet(system);
-	PLANETS.createMoon(system, planet);
-	SHIPS.createDerelict(system);
+	var planet = PLANETS.getPlanet(0);
+    system.obj.push(planet);
+    flight.scene.add(planet.mesh);
+
+    if (planet.size > 128 ) {
+        var moon = PLANETS.createMoon(planet);
+        system.obj.push(moon);
+        flight.scene.add(moon.mesh);
+    }
+
+    SHIPS.createDerelict(system);
 }
 
 

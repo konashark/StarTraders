@@ -63,7 +63,8 @@ var WEALTH = {
 var ECONOMY = {
     AGRICULTURE: 0,
     TECHNOLOGY: 1,
-    INDUSTRY: 2
+    INDUSTRY: 2,
+    MINING: 3
 };
 
 var AGGRESSION = {
@@ -83,7 +84,6 @@ var tPlanet = {
     wealth: 0,
     economy: 0,
     aggression: 0,
-
     commodities: []
 };
 
@@ -93,104 +93,121 @@ var STATUS = {
     OUTLAWED: 2
 };
 
-var tCommodities = [
-    {
-        name: "Food",
-        weight: 3,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Textiles",
-        weight: 3,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Machinery",
-        weight: 30,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Energy",
-        weight: 20,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Luxuries",
-        weight: 3,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Medicine",
-        weight: 4,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Computers",
-        weight: 20,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Livestock",
-        weight: 500,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Robots",
-        weight: 200,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OK
-    },
-    {
-        name: "Contraband",
-        weight: 15,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OUTLAWED
-    },
-    {
-        name: "Weapons",
-        weight: 20,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OUTLAWED
-    },
-    {
-        name: "Classified Data",
-        weight: 2,
-        quantity: 0,
-        buyPrice: 0,
-        sellPrice: 0,
-        status: STATUS.OUTLAWED
-    }
-];
+var tCommodities = [];
+
+tCommodities['Food'] = {
+    name: "Food",
+    weight: 3,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Textiles'] = {
+    name: "Textiles",
+    weight: 3,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Machinery'] = {
+    name: "Machinery",
+    weight: 30,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Energy'] = {
+    name: "Energy",
+    weight: 20,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Luxuries'] = {
+    name: "Luxuries",
+    weight: 3,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Medicine'] = {
+    name: "Medicine",
+    weight: 4,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Computers'] = {
+    name: "Computers",
+    weight: 20,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Metals'] = {
+    name: "Metals",
+    weight: 1000,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Gems'] = {
+    name: "Gems",
+    weight: 1,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Livestock'] = {
+    name: "Livestock",
+    weight: 500,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Robots'] = {
+    name: "Robots",
+    weight: 200,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OK
+};
+tCommodities['Contraband'] = {
+    name: "Contraband",
+    weight: 15,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OUTLAWED
+};
+tCommodities['Weapons'] = {
+    name: "Weapons",
+    weight: 20,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OUTLAWED
+};
+tCommodities['Classified Data'] = {
+    name: "Classified Data",
+    weight: 2,
+    quantity: 0,
+    buyPrice: 0,
+    sellPrice: 0,
+    status: STATUS.OUTLAWED
+};
+
 
 // Starbase
 //      General Repairs: 100 credits per percentage unit
